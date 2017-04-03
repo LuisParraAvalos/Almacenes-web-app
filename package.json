@@ -1,0 +1,30 @@
+{
+  "name": "almacenes-web-app",
+  "version": "1.0.0",
+  "description": "Web App de Almacenes de datos",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "d3": "^4.7.4",
+    "express": "^4.15.2",
+    "method-override": "^2.3.8",
+    "mongoose": "^4.9.3",
+    "node-google-translate-skidz": "^1.1.0",
+    "openlayers": "^4.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisParraAvalos/Almacenes-web-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuisParraAvalos/Almacenes-web-app/issues"
+  },
+  "homepage": "https://github.com/LuisParraAvalos/Almacenes-web-app#readme"
+}
