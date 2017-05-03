@@ -1,0 +1,134 @@
+<% include header.html %>
+
+<script type="text/javascript">
+
+	document.write("<h1> Datos del archivo </h1>");
+
+	objects = JSON.parse(<%- JSON.stringify(data) %>);
+
+	document.write("<table>");
+
+	for (i = 0; i < objects.length; i++)
+	{
+		if (i == 0)
+		{
+			document.write("<tr>");
+
+			for (j in objects[i]["object"])
+			{
+				if (typeof objects[i]["object"][j] == "array" || typeof objects[i]["object"][j] == "object")
+				{
+					for (k in objects[i]["object"][j])
+					{
+						document.write("<th>");
+                        document.write("<input type='checkbox' class='check' checked id='"+k+"'>")
+						document.write(k);
+						document.write("</th>");
+					}
+				}
+				else
+				{
+					document.write("<th>");
+                    document.write("<input type='checkbox' class='check' checked id='"+j+"'>");
+					document.write(j);
+					document.write("</th>");
+				}
+			}
+
+			document.write("<tr>");
+		}
+
+		document.write("<tr>");
+
+		for (j in objects[i]["object"])
+		{
+			if (typeof objects[i]["object"][j] == "array" || typeof objects[i]["object"][j] == "object")
+			{
+				for (k in objects[i]["object"][j])
+				{
+					document.write("<td class='"+k+"'>");
+					document.write(objects[i]["object"][j][k]);
+					document.write("</td>");
+				}
+			}
+			else
+			{
+				document.write("<td class='"+j+"'>");
+				document.write(objects[i]["object"][j]);
+				document.write("</td>");
+			}
+		}
+
+		document.write("<tr>");
+	}
+
+	document.write("</table>");
+    document.write("<select>");
+    document.write("<option value='1'>Algoritmo 1</option>");
+    document.write("<option value='2'>Algoritmo 1</option>");
+    document.write("<option value='3'>Algoritmo 1</option>");
+    document.write("<select>");
+    document.write("</select>");
+    document.write("<button onclick='sendData()'>Limpiar Datos</button>")
+
+    function sendData()
+    {
+        myArray = [];
+        attr =  $(".check");
+        primero = true;
+        atrib = [];
+
+        idFile = <%- JSON.stringify(fileid) %>;
+
+        for (i = 0; i < attr.length; i++)
+        {
+            if (attr[i].checked)
+            {
+                objects = $("." + attr[i].id);
+                myAttr  = attr[i].id;
+
+                if (primero)
+                {
+                    for (j = 0; j < objects.length; j++)
+                    {
+                        myArray.push({});
+                        myArray[j][myAttr] = objects[j].innerHTML;
+                    }
+
+                    primero = false;
+                }
+                else
+                {
+                    for (j = 0; j < objects.length; j++)
+                    {
+                        myArray[j][myAttr] = objects[j].innerHTML;
+                    }
+                }
+
+                atrib.push(attr[i].id);
+            }
+        }
+
+        $.ajax
+        ({
+            data: {data: myArray, idFile: idFile},
+            type: "POST",
+            url: 'limpiarDB'
+        })
+        .done(function( data, textStatus, jqXHR ) 
+        {
+            if (data == "OK")
+            {
+                console.log(atrib);
+                window.location.href = "dbLimpia?db=" + idFile + "&attr=" + atrib;
+            }
+        })
+        .fail(function( jqXHR, textStatus, errorThrown ) 
+        {
+            console.log(textStatus);
+        });
+    }
+
+</script>
+
+<% include footer.html %>

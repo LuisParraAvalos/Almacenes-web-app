@@ -1,0 +1,68 @@
+<% include header.html %>
+
+<script type="text/javascript">
+
+	document.write("<h1> Datos Limpios </h1>");
+
+	objects = JSON.parse(<%- JSON.stringify(data) %>);
+
+	document.write("<table>");
+
+	for (i = 0; i < objects.length; i++)
+	{
+		if (i == 0)
+		{
+			document.write("<tr>");
+
+			for (j in objects[i])
+			{
+				if (typeof objects[i][j] == "array" || typeof objects[i][j] == "object")
+				{
+					for (k in objects[i][j])
+					{
+						document.write("<th>");
+						document.write(k);
+						document.write("</th>");
+					}
+				}
+				else
+				{
+					document.write("<th>");
+					document.write(j);
+					document.write("</th>");
+				}
+			}
+
+			document.write("<tr>");
+		}
+
+		document.write("<tr>");
+
+		for (j in objects[i])
+		{
+			if (typeof objects[i][j] == "array" || typeof objects[i][j] == "object")
+			{
+				for (k in objects[i][j])
+				{
+					document.write("<td class='"+k+"'>");
+					document.write(objects[i]["object"][j][k]);
+					document.write("</td>");
+				}
+			}
+			else
+			{
+				document.write("<td class='"+j+"'>");
+				document.write(objects[i][j]);
+				document.write("</td>");
+			}
+		}
+
+		document.write("<tr>");
+	}
+
+	document.write("</table>");
+    document.write("<button onclick='window.location.href=\"archivos\"'>Ver Archivos</button>")
+
+</script>
+
+<% include footer.html %>
